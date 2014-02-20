@@ -33,7 +33,7 @@ class MiniCalculator {
     {
         $this->codes = $codes;
         $this->tokens = $this->tokenize($codes);
-        $this->buildSyntaxTree();
+        $this->syntaxTree = $this->buildSyntaxTree();
         printf("Your expression is %s.\n", $this->codes);
         printf("The answer is %s.", $this->recursiveCalcNodes($this->syntaxTree));
     }
@@ -60,7 +60,7 @@ class MiniCalculator {
      */
     public function buildSyntaxTree()
     {
-        $this->syntaxTree = array_reverse($this->parser());
+        return array_reverse($this->parser());
     }
 
     /**
@@ -143,7 +143,7 @@ class MiniCalculator {
     public function calculate($op, $numbers)
     {
         // 每次计算只接受一个操作符，多余的会被忽略
-        $op = array_pop($op);
+        $op = array_shift($op);
         $result = 0;
         if ($op === '-' && count($numbers) < 2) {
             $result -= $numbers[0];
@@ -162,6 +162,6 @@ class MiniCalculator {
 }
 
 // S-expression 示例
-$expression = '(+ (- 8 3) 8 (* 2 7))';
+$expression = '(+ (- 8 3) 8 (* 2 7))'; //output : 27
 $interp = new MiniCalculator();
 $interp->interpret($expression);
